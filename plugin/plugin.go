@@ -33,12 +33,12 @@ func Exec(ctx context.Context, args Args) error {
 	// Run `ant` command with specified goals
 	antCmd := execCommand("ant", goals...)
 	antOutput, antErr := antCmd.CombinedOutput()
+	logrus.Info("Output of 'ant " + args.Goals + "': " + string(antOutput))
+
 	if antErr != nil {
-		fmt.Println("Error running 'ant "+args.Goals+"':", antErr)
-		fmt.Println(string(antOutput))
-		return fmt.Errorf("error running 'ant %s': %w", args.Goals, antErr)
+		logrus.WithError(antErr).Errorf("Error running 'ant %s'", args.Goals)
+		return antErr
 	}
-	fmt.Println("Output of 'ant "+args.Goals+"':", string(antOutput))
 
 	return nil
 }
