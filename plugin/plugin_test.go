@@ -43,6 +43,16 @@ func TestVerifyEnvs(t *testing.T) {
 			},
 			wantErr: true,
 		},
+		{
+			name: "empty goals",
+			args: args{
+				ctx: context.TODO(),
+				args: Args{
+					Goals: "",
+				},
+			},
+			wantErr: true,
+		},
 	}
 
 	for _, tt := range tests {
