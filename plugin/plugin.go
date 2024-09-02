@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"os/exec"
 	"strings"
+	
+	"github.com/sirupsen/logrus"
 )
 
 // Args provides plugin execution arguments.
