@@ -1,0 +1,15 @@
+FROM --platform=windows/amd64 mcr.microsoft.com/windows/servercore:ltsc2022
+
+USER ContainerAdministrator
+
+ENV chocolateyVersion=1.4.0
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+RUN Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+RUN choco install -y openjdk8 ant
+
+COPY release/windows/amd64/drone-ant-plugin.exe C:/drone-ant-plugin.exe
+
+ENTRYPOINT ["C:\\drone-ant-plugin.exe"]
